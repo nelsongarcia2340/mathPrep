@@ -11,7 +11,11 @@ import type {
 } from '../types';
 import { adjustDifficulty, getUpdatedPracticeStreaks } from '../utils/adaptive';
 import { stringifyCorrectAnswer } from '../utils/answers';
-import { getLevelFromXp } from '../utils/scoring';
+import {
+  getLevelFromXp,
+  getUpdatedDailyStreak,
+  getXpForCorrectAnswer,
+} from '../utils/scoring';
 
 interface ProgressActions {
   completeOnboarding: (profile: {
@@ -24,6 +28,7 @@ interface ProgressActions {
     selectedAnswer: string;
     isCorrect: boolean;
   }) => void;
+  markMistakeReviewed: (mistakeId: string) => void;
   resetProgress: () => void;
 }
 
@@ -85,7 +90,8 @@ export const useProgressStore = create<ProgressStore>()(
         }),
       recordPracticeAttempt: ({ question, selectedAnswer, isCorrect }) =>
         set((state) => {
-          const now = new Date().toISOString();
+          const nowDate = new Date();
+          const now = nowDate.toISOString();
           const currentTopicProgress =
             state.topicProgress[question.topicId] ??
             createInitialTopicProgress()[question.topicId];
@@ -113,7 +119,8 @@ export const useProgressStore = create<ProgressStore>()(
                 masteryDelta,
             ),
           );
-          const nextXp = state.xp + (isCorrect ? 15 : 5);
+          const nextXp =
+            state.xp + (isCorrect ? getXpForCorrectAnswer(question.difficulty) : 0);
 
           return {
             topicProgress: {
@@ -145,10 +152,20 @@ export const useProgressStore = create<ProgressStore>()(
                 ],
             xp: nextXp,
             level: getLevelFromXp(nextXp),
-            dailyStreak: Math.max(state.dailyStreak, 1),
+            dailyStreak: getUpdatedDailyStreak(
+              state.lastActiveDate,
+              state.dailyStreak,
+              nowDate,
+            ),
             lastActiveDate: now,
           };
         }),
+      markMistakeReviewed: (mistakeId) =>
+        set((state) => ({
+          mistakeJournal: state.mistakeJournal.map((mistake) =>
+            mistake.id === mistakeId ? { ...mistake, reviewed: true } : mistake,
+          ),
+        })),
       resetProgress: () =>
         set({
           ...initialProgress,

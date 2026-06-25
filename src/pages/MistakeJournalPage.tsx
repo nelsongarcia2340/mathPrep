@@ -6,6 +6,7 @@ import { MathText } from '../utils/math';
 
 export function MistakeJournalPage() {
   const mistakes = useProgressStore((state) => state.mistakeJournal);
+  const markMistakeReviewed = useProgressStore((state) => state.markMistakeReviewed);
 
   return (
     <div>
@@ -54,6 +55,19 @@ export function MistakeJournalPage() {
                   >
                     Review again
                   </Link>
+                  {!mistake.reviewed ? (
+                    <button
+                      className="ml-0 mt-2 inline-flex min-h-10 items-center justify-center rounded-lg bg-lagoon-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-lagoon-500 sm:ml-2"
+                      type="button"
+                      onClick={() => markMistakeReviewed(mistake.id)}
+                    >
+                      Mark reviewed
+                    </button>
+                  ) : (
+                    <span className="ml-0 mt-2 inline-flex min-h-10 items-center rounded-lg bg-slate-200 px-3 py-2 text-sm font-bold text-slate-600 sm:ml-2">
+                      Reviewed
+                    </span>
+                  )}
                 </article>
               );
             })}
