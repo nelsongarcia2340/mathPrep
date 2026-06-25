@@ -1,11 +1,13 @@
 import type { Topic, TopicProgress } from '../types';
+import { Link } from 'react-router-dom';
 
 interface TopicCardProps {
   topic: Topic;
   progress?: TopicProgress;
+  showPracticeLink?: boolean;
 }
 
-export function TopicCard({ topic, progress }: TopicCardProps) {
+export function TopicCard({ topic, progress, showPracticeLink = false }: TopicCardProps) {
   const mastery = progress?.mastery ?? 0;
 
   return (
@@ -28,6 +30,14 @@ export function TopicCard({ topic, progress }: TopicCardProps) {
           style={{ width: `${mastery}%` }}
         />
       </div>
+      {showPracticeLink ? (
+        <Link
+          to={`/practice/${topic.id}`}
+          className="mt-4 inline-flex min-h-10 items-center justify-center rounded-lg bg-white px-3 py-2 text-sm font-bold text-lagoon-600 ring-1 ring-lagoon-100 transition hover:bg-lagoon-50"
+        >
+          Practice this topic
+        </Link>
+      ) : null}
     </article>
   );
 }

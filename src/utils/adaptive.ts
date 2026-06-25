@@ -2,6 +2,11 @@ import type { Difficulty } from '../types';
 
 const difficultyOrder: Difficulty[] = ['easy', 'medium', 'hard'];
 
+interface AttemptStreaks {
+  correctStreak: number;
+  wrongStreak: number;
+}
+
 export const adjustDifficulty = (
   currentDifficulty: Difficulty,
   correctStreak: number,
@@ -19,6 +24,15 @@ export const adjustDifficulty = (
 
   return currentDifficulty;
 };
+
+export const getUpdatedPracticeStreaks = (
+  isCorrect: boolean,
+  previousCorrectStreak: number,
+  previousWrongStreak: number,
+): AttemptStreaks => ({
+  correctStreak: isCorrect ? previousCorrectStreak + 1 : 0,
+  wrongStreak: isCorrect ? 0 : previousWrongStreak + 1,
+});
 
 export const estimateDifficultyFromScore = (score: number): Difficulty => {
   if (score >= 0.75) {

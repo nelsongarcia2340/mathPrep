@@ -11,6 +11,9 @@ export function DashboardPage() {
     return <Navigate to="/onboarding" replace />;
   }
 
+  const recommendedTopic =
+    topics.find((topic) => topic.subject === profile.course) ?? topics[0];
+
   return (
     <div>
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -26,7 +29,7 @@ export function DashboardPage() {
           </p>
         </div>
         <Link
-          to="/practice"
+          to={`/practice/${recommendedTopic.id}`}
           className="inline-flex min-h-11 items-center justify-center rounded-lg bg-lagoon-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-lagoon-500"
         >
           Start practice
@@ -58,7 +61,12 @@ export function DashboardPage() {
         <h2 className="text-xl font-black tracking-normal text-ink">Topics</h2>
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           {topics.map((topic) => (
-            <TopicCard key={topic.id} topic={topic} progress={topicProgress[topic.id]} />
+            <TopicCard
+              key={topic.id}
+              topic={topic}
+              progress={topicProgress[topic.id]}
+              showPracticeLink
+            />
           ))}
         </div>
       </section>
