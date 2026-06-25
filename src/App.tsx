@@ -27,6 +27,7 @@ export function App() {
         <Route path="practice" element={<PracticePage />} />
         <Route path="practice/:topicId" element={<PracticePage />} />
         <Route path="test" element={<TimedTestPage />} />
+        <Route path="timed-test" element={<TimedTestPage />} />
         <Route path="mistakes" element={<MistakeJournalPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>

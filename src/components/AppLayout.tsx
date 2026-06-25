@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 const navItems = [
   { to: '/', label: 'Dashboard' },
   { to: '/practice', label: 'Practice' },
-  { to: '/test', label: 'Timed Test' },
+  { to: '/timed-test', label: 'Timed Test' },
   { to: '/mistakes', label: 'Journal' },
   { to: '/settings', label: 'Settings' },
 ];

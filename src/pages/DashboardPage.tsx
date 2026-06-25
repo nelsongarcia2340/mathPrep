@@ -28,12 +28,20 @@ export function DashboardPage() {
             {profile.course} · {profile.gradeLevel} grade
           </p>
         </div>
-        <Link
-          to={`/practice/${recommendedTopic.id}`}
-          className="inline-flex min-h-11 items-center justify-center rounded-lg bg-lagoon-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-lagoon-500"
-        >
-          Start practice
-        </Link>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Link
+            to={`/practice/${recommendedTopic.id}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-lagoon-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-lagoon-500"
+          >
+            Start practice
+          </Link>
+          <Link
+            to="/timed-test"
+            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-slate-200 transition hover:bg-slate-50"
+          >
+            Timed test
+          </Link>
+        </div>
       </header>
 
       <section className="mt-6 grid gap-4 sm:grid-cols-3">
